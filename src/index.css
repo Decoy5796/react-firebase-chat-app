@@ -153,3 +153,8 @@ input[type='submit']:active {
   padding: 10px 20px;
   border-radius: 4px;
 }
+
+.auth-wrapper .warning-cap {
+  font-size: 16px;
+  text-align: right;
+}
