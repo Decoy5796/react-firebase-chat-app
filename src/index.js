@@ -6,9 +6,18 @@ import { createStore, applyMiddleware } from 'redux';
 import promiseMiddleware from 'redux-promise';
 import ReduxThunk from 'redux-thunk';
 import Reducer from './redux/reducer';
+import { createGlobalStyle } from 'styled-components';
+import { reset } from 'styled-reset';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+
+const GlobalStyle = createGlobalStyle`
+  ${reset}
+  * {
+    box-sizing: border-box;
+  }
+`;
 
 const createStoreWithMiddleware = applyMiddleware(
   promiseMiddleware,
@@ -25,6 +34,7 @@ ReactDOM.render(
       )}
     >
       <Router>
+        <GlobalStyle />
         <App />
       </Router>
     </Provider>
