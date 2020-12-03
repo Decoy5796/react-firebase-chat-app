@@ -1,20 +1,38 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
+import firebase from '../../firebase.js';
 
 function RegisterPage() {
   const password = useRef();
-  const { register, watch, errors } = useForm({ mode: 'onChange' });
+  const [errorFromSubmit, setErrorFromSubmit] = useState('');
+  const { register, watch, errors, handleSubmit } = useForm({
+    mode: 'onChange',
+  });
 
   password.current = watch('password');
-  console.log(watch('email'));
+
+  const onSubmit = async (data) => {
+    try {
+      let createdUser = await firebase
+        .auth()
+        .createUserWithEmailAndPassword(data.email, data.password);
+      console.log('createdUser', createdUser);
+    } catch (err) {
+      console.error(err);
+      setErrorFromSubmit(err.message);
+      // setTimeout(() => {
+      //   setErrorFromSubmit('');
+      // }, 5000);
+    }
+  };
 
   return (
     <div className='auth-wrapper'>
       <div>
         <h3>Register</h3>
       </div>
-      <form>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <label>Email</label>
         <input
           name='email'
@@ -29,14 +47,16 @@ function RegisterPage() {
         )}
 
         <label>Name</label>
-        <input name='name' ref={register({ required: true, maxLength: 10 })} />
+        <input
+          name='name'
+          type='text'
+          ref={register({ required: true, maxLength: 10 })}
+        />
         {errors.name && errors.name.type === 'required' && (
           <p className='warning-cap'>This field is required</p>
         )}
         {errors.name && errors.name.type === 'maxLength' && (
-          <p className='warning-cap'>
-            Password must have at least 6 characters
-          </p>
+          <p className='warning-cap'>Maximum ID characters over</p>
         )}
 
         <label>Password</label>
@@ -63,13 +83,15 @@ function RegisterPage() {
             validate: (val) => val === password.current,
           })}
         />
-        {errors.password_confirm && errors.password_confirm === 'required' && (
-          <p className='warning-cap'>This field is required</p>
-        )}
-        {errors.password_confirm && errors.password_confirm === 'validate' && (
-          <p className='warning-cap'>The passwords do not match</p>
-        )}
-
+        {errors.password_confirm &&
+          errors.password_confirm.type === 'required' && (
+            <p className='warning-cap'>This field is required</p>
+          )}
+        {errors.password_confirm &&
+          errors.password_confirm.type === 'validate' && (
+            <p className='warning-cap'>The passwords do not match</p>
+          )}
+        {errorFromSubmit && <p className='warning-cap'>{errorFromSubmit}</p>}
         <input type='submit' />
       </form>
       <Link
