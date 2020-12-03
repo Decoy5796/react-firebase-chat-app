@@ -8,6 +8,7 @@ import ReduxThunk from 'redux-thunk';
 import Reducer from './redux/reducer';
 import { createGlobalStyle } from 'styled-components';
 import { reset } from 'styled-reset';
+import { ChakraProvider } from '@chakra-ui/react';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
@@ -35,7 +36,9 @@ ReactDOM.render(
     >
       <Router>
         <GlobalStyle />
-        <App />
+        <ChakraProvider>
+          <App />
+        </ChakraProvider>
       </Router>
     </Provider>
   </React.StrictMode>,
