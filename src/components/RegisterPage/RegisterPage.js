@@ -17,16 +17,25 @@ function RegisterPage() {
   const onSubmit = async (data) => {
     try {
       setLoading(true);
+
+      // Create user
       let createdUser = await firebase
         .auth()
         .createUserWithEmailAndPassword(data.email, data.password);
       console.log('createdUser', createdUser);
 
+      // Update user - name & photo
       await createdUser.user.updateProfile({
         displayName: data.name,
         photoURL: `http:gravatar.com/avatar/${md5(
           createdUser.user.email
         )}?d=identicon`,
+      });
+
+      // Save in firebase db
+      await firebase.database().ref('users').child(createdUser.user.uid).set({
+        name: createdUser.user.displayName,
+        image: createdUser.user.photoURL,
       });
 
       setLoading(false);
