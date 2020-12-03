@@ -6,6 +6,7 @@ import firebase from '../../firebase.js';
 function RegisterPage() {
   const password = useRef();
   const [errorFromSubmit, setErrorFromSubmit] = useState('');
+  const [loading, setLoading] = useState(false);
   const { register, watch, errors, handleSubmit } = useForm({
     mode: 'onChange',
   });
@@ -14,13 +15,16 @@ function RegisterPage() {
 
   const onSubmit = async (data) => {
     try {
+      setLoading(true);
       let createdUser = await firebase
         .auth()
         .createUserWithEmailAndPassword(data.email, data.password);
       console.log('createdUser', createdUser);
+      setLoading(false);
     } catch (err) {
       console.error(err);
       setErrorFromSubmit(err.message);
+      setLoading(false);
       // setTimeout(() => {
       //   setErrorFromSubmit('');
       // }, 5000);
@@ -92,7 +96,7 @@ function RegisterPage() {
             <p className='warning-cap'>The passwords do not match</p>
           )}
         {errorFromSubmit && <p className='warning-cap'>{errorFromSubmit}</p>}
-        <input type='submit' />
+        <input type='submit' disabled={loading} />
       </form>
       <Link
         to='login'
