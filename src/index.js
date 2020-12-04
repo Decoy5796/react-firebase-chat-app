@@ -17,13 +17,12 @@ const theme = extendTheme({
   styles: {
     global: {
       body: {
-        bg: '#0E101C',
-        color: '#fff',
-      },
-      input: {
         color: 'black',
       },
     },
+  },
+  components: {
+    Button: {},
   },
 });
 
