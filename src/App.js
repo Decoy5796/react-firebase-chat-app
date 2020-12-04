@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Switch, Route, useHistory } from 'react-router-dom';
 
-import { setUser } from './redux/actions/user_action';
+import { setUser, clearUser } from './redux/actions/user_action';
 
 import ChatPage from './components/ChatPage/ChatPage';
 import LoginPage from './components/LoginPage/LoginPage';
@@ -23,6 +23,7 @@ function App() {
       } else {
         // Login fail
         history.push('/login');
+        dispatch(clearUser());
       }
     });
   }, []);

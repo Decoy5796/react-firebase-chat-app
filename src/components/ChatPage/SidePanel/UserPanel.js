@@ -14,6 +14,7 @@ import {
   Avatar,
 } from '@chakra-ui/react';
 import { ChevronDownIcon } from '@chakra-ui/icons';
+import firebase from '../../../firebase';
 
 const Logo = styled.h3`
   color: #fff;
@@ -31,7 +32,11 @@ const Logo = styled.h3`
 
 export default function UserPanel() {
   const user = useSelector((state) => state.user.currentUser);
-  console.log(user.photoURL);
+
+  const handleLogout = () => {
+    firebase.auth().signOut();
+  };
+
   return (
     <>
       <Logo>
@@ -49,7 +54,7 @@ export default function UserPanel() {
             <MenuList>
               <MenuGroup>
                 <MenuItem>프로필 사진 변경</MenuItem>
-                <MenuItem>로그아웃</MenuItem>
+                <MenuItem onClick={handleLogout}>로그아웃</MenuItem>
               </MenuGroup>
             </MenuList>
           </Menu>

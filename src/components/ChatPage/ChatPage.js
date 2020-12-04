@@ -6,7 +6,6 @@ import MainPanel from './MainPanel/MainPanel';
 
 const FlexWrap = styled.div`
   display: flex;
-  background: #fff;
 
   & > div:nth-child(1) {
     width: 300px;

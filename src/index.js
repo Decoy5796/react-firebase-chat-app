@@ -8,17 +8,24 @@ import ReduxThunk from 'redux-thunk';
 import Reducer from './redux/reducer';
 import { createGlobalStyle } from 'styled-components';
 import { reset } from 'styled-reset';
-import { ChakraProvider } from '@chakra-ui/react';
+import { ChakraProvider, extendTheme } from '@chakra-ui/react';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-const GlobalStyle = createGlobalStyle`
-  ${reset}
-  * {
-    box-sizing: border-box;
-  }
-`;
+const theme = extendTheme({
+  styles: {
+    global: {
+      body: {
+        bg: '#0E101C',
+        color: '#fff',
+      },
+      input: {
+        color: 'black',
+      },
+    },
+  },
+});
 
 const createStoreWithMiddleware = applyMiddleware(
   promiseMiddleware,
@@ -35,8 +42,7 @@ ReactDOM.render(
       )}
     >
       <Router>
-        <GlobalStyle />
-        <ChakraProvider>
+        <ChakraProvider theme={theme}>
           <App />
         </ChakraProvider>
       </Router>

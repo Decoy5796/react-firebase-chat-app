@@ -27,7 +27,7 @@ function RegisterPage() {
       // Update user - name & photo
       await createdUser.user.updateProfile({
         displayName: data.name,
-        photoURL: `http:gravatar.com/avatar/${md5(
+        photoURL: `http://gravatar.com/avatar/${md5(
           createdUser.user.email
         )}?d=identicon`,
       });
