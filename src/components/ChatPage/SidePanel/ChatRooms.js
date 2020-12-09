@@ -120,6 +120,9 @@ function ChatRooms() {
   useEffect(() => {
     getChatRooms();
     addChatRoomsListeners();
+
+    // clean up firebase listener
+    return () => roomRef.off();
   }, []);
 
   /**
