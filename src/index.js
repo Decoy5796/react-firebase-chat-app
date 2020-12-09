@@ -6,8 +6,6 @@ import { createStore, applyMiddleware } from 'redux';
 import promiseMiddleware from 'redux-promise';
 import ReduxThunk from 'redux-thunk';
 import Reducer from './redux/reducer';
-import { createGlobalStyle } from 'styled-components';
-import { reset } from 'styled-reset';
 import { ChakraProvider, extendTheme } from '@chakra-ui/react';
 import './index.css';
 import App from './App';
