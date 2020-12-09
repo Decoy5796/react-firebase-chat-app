@@ -35,6 +35,7 @@ function ChatRooms() {
   const dispatch = useDispatch();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [roomRef, setRoomRef] = useState(firebase.database().ref('chatRooms'));
+  const [activeChatRoomId, setActiveChatRoomId] = useState('');
 
   /**
    * Handler for JSX
@@ -92,20 +93,28 @@ function ChatRooms() {
   };
   const changeChatRoom = (room) => {
     dispatch(setCurrentChatRoom(room));
+    setActiveChatRoomId(room.id);
   };
   const renderChatRooms = useCallback(
     (chatRooms) => {
       if (chatRooms.length > 0) {
         return chatRooms.map((room) => {
           return (
-            <li key={room.id} onClick={() => changeChatRoom(room)}>
+            <li
+              key={room.id}
+              onClick={() => changeChatRoom(room)}
+              style={{
+                cursor: 'pointer',
+                backgroundColor: room.id === activeChatRoomId && '#ffffff45',
+              }}
+            >
               #{room.name}
             </li>
           );
         });
       }
     },
-    [chatRooms]
+    [chatRooms, activeChatRoomId]
   );
 
   useEffect(() => {
@@ -121,6 +130,7 @@ function ChatRooms() {
   const setFirstChatRoom = () => {
     const firstChatRoom = chatRooms[0];
     dispatch(setCurrentChatRoom(firstChatRoom));
+    setActiveChatRoomId(firstChatRoom.id);
   };
 
   useEffect(() => {
@@ -132,7 +142,6 @@ function ChatRooms() {
 
   return (
     <>
-      {console.log('RENDERING...')}
       <Flex align='center' justify='space-between' onClick={onOpen}>
         <Flex align='center' justify='center'>
           <FaRegSmileWink />
